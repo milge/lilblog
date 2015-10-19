@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    
+</head>
+<body>
+    <textarea id="txtHtml">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</textarea>
+    <button id="btnConvert" onclick="onConvert()">Convert</button>
+    <label id="lblResult"></label>
+    <!--http://www.thorntech.com/2012/07/4-things-you-must-do-when-putting-html-in-json/-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        function onConvert() {
+            var html = $('#txtHtml').val().toString();
+            //var res = html.replace('"', '\"').replace('</', '<\/').replace('"', '&quot;');
+            var res = html.replace(/"/g, "\\");
+            res = res.replace(/'/g, "&quot;")
+            res = res.replace(/<\//g, "<\\/");
+            //res = html.replace(/</ / g, "<\/");
+            $('#lblResult').text('"' + res + '"');
+        }
+    </script>
+</body>
+</html>

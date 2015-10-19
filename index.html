@@ -1,0 +1,283 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
+      <link href='https://fonts.googleapis.com/css?family=Karma:400,300,700' rel='stylesheet' type='text/css'>
+    <title>Blog</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="blog.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+      <!-- Bootstrap core JavaScript
+    ================================================== -->
+      <!-- Placed at the end of the document so the pages load faster -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+      <script src="js/ie10-viewport-bug-workaround.js"></script>
+      <script>
+
+          var data = null;
+          var postsPerPage = 0, currentPage = 0, totalPages = 0;
+
+          $(function () {
+
+              if (data == null) {
+                  $.getJSON("data.json", function (jsondata) {
+                      data = jsondata;
+                      var items = [];
+                      
+                      $.each(data.posts, function (key, val) {
+                          //var newPostHtml = "<div class=\"blog-post\"><h2 class=\"blog-post-title\">" + val.title + "</h2><p class=\"blog-post-meta\">" +
+                          //    val.date + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+                          //$('.navi').before(newPostHtml);
+
+                          //<li><a href="#">March 2014</a></li>
+                          var postLink = "<li><a href=\"#" + val.title + "\" >" + val.title + "</a></li>";
+                          $('.list-posts').append(postLink);
+
+                          //$('.blog-post-title').text(val.title);
+                          //$('.blog-post-text').html(val.text);
+                          //items.push("<li id='" + key + "'>" + val + "</li>");
+                      });
+
+                      $.each(data.links, function (key, val) {
+                          var link = "<li><a href=\"" + val.link + "\">" + val.text + "</a></li>";
+                          $('.list-links').append(link);
+
+                      });
+
+
+
+                      $('.blog-title').text(data.blogtitle);
+                      $('.blog-description').text(data.blogdescription);
+                      $('.blogabout').html(data.blogabout);
+                      postsPerPage = data.postsperpage;
+                      totalPages = data.posts.length / postsPerPage;
+                      LoadPage(currentPage);
+                      //alert(window.location.href);
+                      //$("<ul/>", {
+                      //    "class": "my-new-list",
+                      //    html: items.join("")
+                      //}).appendTo("body");
+
+                      var url = window.location.hash;
+                      if (url != '') {
+                          LoadPost(url.replace('#', ''));
+                      }
+                  });
+              }
+              else {
+
+
+                  var url = window.location.hash;
+                  if (url != '') {
+                      LoadPost(url);
+                  }
+              }
+
+
+
+          });
+
+          function LoadPost(title) {
+              //alert(title);
+              var posttitle = title.replace( '%20',' ').replace('#','');
+              $('.blog-post').remove();
+              $.each(data.posts, function (key, val) {
+                  if (val.title == posttitle) {
+                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
+                             val.date + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+                      $('.navi').before(newPostHtml);
+                  }
+              });
+              $('html,body').scrollTop(0);
+              $('.pager').hide();
+          }
+
+          function LoadPage(page, clear) {
+              if(clear)
+                $('.blog-post').remove();
+              for (var i = page * postsPerPage; i < (page * postsPerPage + postsPerPage); i++) {
+                  var post = data.posts[i];
+                  var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + post.title + "\" >" + post.title + "</a><p class=\"blog-post-meta\">" +
+                      post.date + "</p><p class=\"blog-post-text\">" + post.text + "</p>";
+                  $('.navi').before(newPostHtml);
+
+
+              }
+              
+              //$('.pager').hide();
+              //$.each(data.posts, function (key, val) {
+              //    var newPostHtml = "<div class=\"blog-post\"><h2 class=\"blog-post-title\">" + val.title + "</h2><p class=\"blog-post-meta\">" +
+              //        val.date + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+              //    $('.navi').before(newPostHtml);
+
+              //    //<li><a href="#">March 2014</a></li>
+              //    var postLink = "<li><a href=\"#" + val.title + "\" onclick=\"javascript:LoadPost('" + val.title + "');\">" + val.title + "</a></li>";
+              //    $('.list-posts').append(postLink);
+
+              //    //$('.blog-post-title').text(val.title);
+              //    //$('.blog-post-text').html(val.text);
+              //    //items.push("<li id='" + key + "'>" + val + "</li>");
+              //});
+
+          }
+
+          function More() {
+              if (currentPage < totalPages - 1) {
+                  currentPage++;
+                  if (currentPage == totalPages - 1)
+                      $('.pager').hide();
+                  LoadPage(currentPage, false);
+              } 
+          }
+
+          function PrevPage() {
+              if (currentPage > 0)
+              {
+                  currentPage = currentPage--;
+                  LoadPage(currentPage, true);
+              }
+          }
+
+          function NextPage() {
+              if (currentPage < totalPages - 1) {
+                  currentPage = currentPage++;
+                  LoadPage(currentPage, true);
+              }
+          }
+
+
+          document.onmouseover = function () {
+              //User's mouse is inside the page.
+              window.innerDocClick = true;
+          }
+
+          document.onmouseleave = function () {
+              //User's mouse has left the page.
+              window.innerDocClick = false;
+          }
+
+          window.onhashchange = function () {
+              if (window.innerDocClick) {
+                  //Your own in-page mechanism triggered the hash change
+              } else {
+                  //Browser back button was clicked
+              }
+
+              var url = window.location.hash;
+              //alert(url);
+              if (url != '') {
+                  LoadPost(url);
+              } else {
+                  LoadPage(0, true);
+                  $('.pager').show();
+
+              }
+          }
+
+          function Search() {
+              $('.blog-post').remove();
+              var search = $('#txtSearch').val();
+              if (search == '') {
+                  $('.pager').show();
+                  LoadPage(0, true);
+              }
+              else {
+                  $('.pager').hide();
+                  $.each(data.posts, function (key, val) {
+                      if (val.text.indexOf(search, 0) > -1) {
+                          var text = val.text.replace(search, '<span style="background-color: #f1c40f">' + search + '</span>');
+                          var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
+                                 val.date + "</p><p class=\"blog-post-text\">" + text + "</p>";
+                          $('.navi').before(newPostHtml);
+                      }
+                  });
+              }
+          }
+
+      </script>
+     
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="blog-header">
+        <a href="/" class="blog-title"></a>
+        <p class="lead blog-description"></p>
+      </div>
+
+      <div class="row">
+
+        <div class="col-sm-8 blog-main">
+
+          
+
+          <nav class="navi">
+            <ul class="pager">
+              <li><a href="javascript: More();">More</a></li>
+            </ul>
+          </nav>
+
+        </div><!-- /.blog-main -->
+
+        <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p class="blogabout"></p>
+          </div>
+            <div class="sidebar-module">
+                <h4>Search</h4>
+                <input type="text" id="txtSearch" class="form-control" onkeyup="javascript: Search();" />
+            </div>
+          <div class="sidebar-module">
+            <h4>Posts</h4>
+            <ol class="list-unstyled list-posts">
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Links</h4>
+            <ol class="list-unstyled list-links">
+            </ol>
+          </div>
+         
+        </div><!-- /.blog-sidebar -->
+
+      </div><!-- /.row -->
+
+    </div><!-- /.container -->
+
+    <footer class="blog-footer">
+      <p>made with ♥ by milge</p>
+    </footer>
+
+
+
+  </body>
+</html>
+
+
