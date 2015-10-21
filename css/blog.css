@@ -21,14 +21,12 @@ h6, .h6 {
 
 @font-face {
   font-family: Sanford;
-  src: local("Sanford"),
-       url(fonts/Sanford.ttf) format("truetype");
+  src: url("fonts/sanford.ttf");
 }
 
 @font-face {
   font-family: Pacifico;
-  src: local("Pacifico"),
-       url(fonts/Pacifico.ttf) format("truetype");
+  src: url("fonts/pacifico.ttf");
 }
 
 
