@@ -67,7 +67,7 @@
     ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
       <script src="js/jquery.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
+
       
       <script>
           var data = null;
@@ -80,11 +80,13 @@
                       data = jsondata;
                       var items = [];
                       
+                      //populate posts list
                       $.each(data.posts, function (key, val) {
                           var postLink = "<li><a href=\"#" + val.title + "\" >" + val.title + "</a></li>";
                           $('.list-posts').append(postLink);
                       });
 
+                      //populate links list
                       $.each(data.links, function (key, val) {
                           var link = "<li><a href=\"" + val.link + "\">" + val.text + "</a></li>";
                           $('.list-links').append(link);
