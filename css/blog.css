@@ -22,7 +22,13 @@ h6, .h6 {
 @font-face {
   font-family: Sanford;
   src: local("Sanford"),
-       url(Sanford-0103_demo.ttf);
+       url(fonts/Sanford.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: Pacifico;
+  src: local("Pacifico"),
+       url(fonts/Pacifico.ttf) format("truetype");
 }
 
 

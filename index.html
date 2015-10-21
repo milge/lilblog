@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -6,17 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="favicon.ico">
-    <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
-      <link href='https://fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
-      <link href='https://fonts.googleapis.com/css?family=Karma:400,300,700' rel='stylesheet' type='text/css'>
+    <!--<link rel="icon" href="favicon.ico">-->
     <title>Blog</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="blog.css" rel="stylesheet">
+    <link href="css/blog.css" rel="stylesheet">
     
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -85,17 +82,8 @@
                       var items = [];
                       
                       $.each(data.posts, function (key, val) {
-                          //var newPostHtml = "<div class=\"blog-post\"><h2 class=\"blog-post-title\">" + val.title + "</h2><p class=\"blog-post-meta\">" +
-                          //    val.date + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
-                          //$('.navi').before(newPostHtml);
-
-                          //<li><a href="#">March 2014</a></li>
                           var postLink = "<li><a href=\"#" + val.title + "\" >" + val.title + "</a></li>";
                           $('.list-posts').append(postLink);
-
-                          //$('.blog-post-title').text(val.title);
-                          //$('.blog-post-text').html(val.text);
-                          //items.push("<li id='" + key + "'>" + val + "</li>");
                       });
 
                       $.each(data.links, function (key, val) {
@@ -110,11 +98,6 @@
                       postsPerPage = data.postsperpage;
                       totalPages = data.posts.length / postsPerPage;
                       LoadPage(currentPage);
-                      //alert(window.location.href);
-                      //$("<ul/>", {
-                      //    "class": "my-new-list",
-                      //    html: items.join("")
-                      //}).appendTo("body");
 
                       var url = window.location.hash;
                       if (url != '') {
@@ -156,22 +139,6 @@
 
 
               }
-              
-              //$('.pager').hide();
-              //$.each(data.posts, function (key, val) {
-              //    var newPostHtml = "<div class=\"blog-post\"><h2 class=\"blog-post-title\">" + val.title + "</h2><p class=\"blog-post-meta\">" +
-              //        val.date + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
-              //    $('.navi').before(newPostHtml);
-
-              //    //<li><a href="#">March 2014</a></li>
-              //    var postLink = "<li><a href=\"#" + val.title + "\" onclick=\"javascript:LoadPost('" + val.title + "');\">" + val.title + "</a></li>";
-              //    $('.list-posts').append(postLink);
-
-              //    //$('.blog-post-title').text(val.title);
-              //    //$('.blog-post-text').html(val.text);
-              //    //items.push("<li id='" + key + "'>" + val + "</li>");
-              //});
-
           }
 
           function More() {
@@ -183,38 +150,8 @@
               } 
           }
 
-          function PrevPage() {
-              if (currentPage > 0)
-              {
-                  currentPage = currentPage--;
-                  LoadPage(currentPage, true);
-              }
-          }
-
-          function NextPage() {
-              if (currentPage < totalPages - 1) {
-                  currentPage = currentPage++;
-                  LoadPage(currentPage, true);
-              }
-          }
-
-
-          document.onmouseover = function () {
-              //User's mouse is inside the page.
-              window.innerDocClick = true;
-          }
-
-          document.onmouseleave = function () {
-              //User's mouse has left the page.
-              window.innerDocClick = false;
-          }
-
+          //handling hashtags
           window.onhashchange = function () {
-              if (window.innerDocClick) {
-                  //Your own in-page mechanism triggered the hash change
-              } else {
-                  //Browser back button was clicked
-              }
 
               var url = window.location.hash;
               //alert(url);

@@ -13,11 +13,9 @@
     <script>
         function onConvert() {
             var html = $('#txtHtml').val().toString();
-            //var res = html.replace('"', '\"').replace('</', '<\/').replace('"', '&quot;');
             var res = html.replace(/"/g, "\\");
             res = res.replace(/'/g, "&quot;")
             res = res.replace(/<\//g, "<\\/");
-            //res = html.replace(/</ / g, "<\/");
             $('#lblResult').text('"' + res + '"');
         }
     </script>
