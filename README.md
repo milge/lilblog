@@ -27,3 +27,5 @@ If you have a HTML post that needs to be added, write out your post in HTML. [Th
 Break out json file into chunks for performance for larger sites.
 
 Refactor jquery functionality into native javascript.
+
+"No Search Results Found" message.
