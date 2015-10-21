@@ -4,10 +4,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="../../favicon.ico">
+    <link rel="icon" href="favicon.ico">
     <link href='https://fonts.googleapis.com/css?family=Pacifico' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Lora:400,700' rel='stylesheet' type='text/css'>
       <link href='https://fonts.googleapis.com/css?family=Karma:400,300,700' rel='stylesheet' type='text/css'>
@@ -18,44 +17,29 @@
 
     <!-- Custom styles for this template -->
     <link href="blog.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-
-
+    
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-
   </head>
-
   <body>
-
     <div class="container">
-
       <div class="blog-header">
         <a href="/" class="blog-title"></a>
           <img src="img/spiderweb.jpg" style="width: 100px;" class="pull-right" />
         <p class="lead blog-description"></p>
       </div>
-
       <div class="row">
-
         <div class="col-sm-8 blog-main">
-
-          
-
           <nav class="navi">
             <ul class="pager">
               <li><a href="javascript: More();">More</a></li>
             </ul>
           </nav>
-
         </div><!-- /.blog-main -->
-
         <div class="col-sm-3 col-sm-offset-1 blog-sidebar">
           <div class="sidebar-module sidebar-module-inset">
             <h4>About</h4>
@@ -75,13 +59,9 @@
             <ol class="list-unstyled list-links">
             </ol>
           </div>
-         
         </div><!-- /.blog-sidebar -->
-
       </div><!-- /.row -->
-
     </div><!-- /.container -->
-
     <footer class="blog-footer">
       <p>made with ♥ by milge</p>
     </footer>
@@ -90,12 +70,10 @@
       <!-- Bootstrap core JavaScript
     ================================================== -->
       <!-- Placed at the end of the document so the pages load faster -->
-      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+      <script src="js/jquery.min.js"></script>
       <script src="js/bootstrap.min.js"></script>
       
-      
       <script>
-
           var data = null;
           var postsPerPage = 0, currentPage = 0, totalPages = 0;
 
@@ -126,8 +104,6 @@
 
                       });
 
-
-
                       $('.blog-title').text(data.blogtitle);
                       $('.blog-description').text(data.blogdescription);
                       $('.blogabout').html(data.blogabout);
@@ -147,16 +123,11 @@
                   });
               }
               else {
-
-
                   var url = window.location.hash;
                   if (url != '') {
                       LoadPost(url);
                   }
               }
-
-
-
           });
 
           function LoadPost(title) {
@@ -275,10 +246,7 @@
                   });
               }
           }
-
       </script>
-     
-      
       <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
       <script src="js/ie10-viewport-bug-workaround.js"></script>
       
