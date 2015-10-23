@@ -24,6 +24,7 @@
       </div>
       <div class="row">
         <div class="col-sm-8 blog-main">
+          <span class="no-results blog-post-title" style="display:none;">No Search Results Found</span>
           <nav class="navi">
             <ul class="pager">
               <li><a href="javascript: More();">More</a></li>
@@ -119,11 +120,14 @@
               });
               $('html,body').scrollTop(0);
               $('.pager').hide();
+              $('.no-results').hide();
           }
 
           function LoadPage(page, clear) {
-              if(clear)
+              if(clear){
                 $('.blog-post').remove();
+                $('.no-results').hide();
+              }
               for (var i = page * postsPerPage; i < (page * postsPerPage + postsPerPage); i++) {
                   var post = data.posts[i];
                   var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + post.title + "\" >" + post.title + "</a><p class=\"blog-post-meta\">" +
@@ -166,16 +170,36 @@
               }
               else {
                   $('.pager').hide();
+                  var resultsFound = false;
                   $.each(data.posts, function (key, val) {
-                      if (val.text.indexOf(search, 0) > -1) {
-                          var text = val.text.replace(search, '<span style="background-color: #f1c40f">' + search + '</span>');
-                          var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
-                                 val.date + "</p><p class=\"blog-post-text\">" + text + "</p>";
-                          $('.navi').before(newPostHtml);
-                      }
+                    //search title and text
+                    var newTitle = replaceAll(val.title, search, search);
+                    var newText = replaceAll(val.text, search, search);
+                    if(newTitle != val.title || newText != val.text){
+                      resultsFound = true;
+                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + newTitle + "</a><p class=\"blog-post-meta\">" +
+                               val.date + "</p><p class=\"blog-post-text\">" + newText + "</p>";
+                        $('.navi').before(newPostHtml);
+                    }
                   });
+                  if(!resultsFound)
+                    $('.no-results').show();
+                  else
+                    $('.no-results').hide();
               }
           }
+          
+          function escapeRegExp(string) {
+            return string.replace(/([.*+?^=!:${}()|\[\]\/\\])/gi, "\\$1");
+          }
+          
+          //case insensitive. wrap with yellow
+          function replaceAll(string, find, replace) {
+            return string.replace(new RegExp(escapeRegExp(find), 'gi'), function(replace){
+              return '<span style="background-color: #f1c40f">' + replace + '</span>';
+            });
+          }
+          
       </script>
   </body>
 </html>
