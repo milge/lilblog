@@ -10,6 +10,8 @@ LilBlog is a client-side only blog. It uses javascript, css, and html. Data is s
 
 **Learning:** LilBlog is great for students learning front end web technologies without having to know server side technologies.
 
+**Secure:** Since none of LilBlog writes to the server on which it runs, it's considerably more secure than most blogging platforms.
+
 ###Why not Jekyll/Kirby/etc?
 Database-free site generators like Jekyll are great for generating sites. The downsides are having to learn a new syntax and requirements. Jekyll needs Ruby, RubyGems, an OS, NodeJS, and Python to run. LilBlog just needs server software like Apache or IIS to run.
 
@@ -22,10 +24,3 @@ Adding a new post is simple. Just add a new line to the data.json file under pos
 HTML doesn't always play nice in JSON strings. [There are a few things that need to be done to prepare HTML to be saved to JSON.](http://www.thorntech.com/2012/07/4-things-you-must-do-when-putting-html-in-json/)
 
 If you have a HTML post that needs to be added, write out your post in HTML. [Then use this tool to convert your HTML to a JSON-safe string.](https://milge.github.io/html2jsons.html) The generated output will work in JSON.
-
-###TODO:
-Break out json file into chunks for performance for larger sites.
-
-Refactor jquery functionality into native javascript.
-
-"No Search Results Found" message.
