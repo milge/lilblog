@@ -26,7 +26,7 @@
         <div class="col-sm-8 blog-main">
           <span class="no-results blog-post-title" style="display:none;">No Search Results Found</span>
           <nav class="navi">
-            <ul class="pager">
+            <ul class="pager" style="display:none;">
               <li><a href="javascript: More();">More</a></li>
             </ul>
           </nav>
@@ -92,6 +92,10 @@
                       postsPerPage = data.postsperpage;
                       totalPages = data.posts.length / postsPerPage;
                       LoadPage(currentPage);
+                      
+                      
+                      if(data.posts.length > postsPerPage)
+                        $('.pager').show();
 
                       var url = window.location.hash;
                       if (url != '') {
