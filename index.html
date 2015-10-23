@@ -90,7 +90,10 @@
                       $('.blog-description').text(data.blogdescription);
                       $('.blogabout').html(data.blogabout);
                       postsPerPage = data.postsperpage;
-                      totalPages = data.posts.length / postsPerPage;
+                      if(data.posts.length < postsPerPage)
+                        totalPages = 1;
+                      else
+                        totalPages = data.posts.length / postsPerPage;
                       LoadPage(currentPage);
                       
                       
@@ -132,7 +135,10 @@
                 $('.blog-post').remove();
                 $('.no-results').hide();
               }
-              for (var i = page * postsPerPage; i < (page * postsPerPage + postsPerPage); i++) {
+              var max = (page * postsPerPage + postsPerPage);
+              if(totalPages < max)
+                max = totalPages;
+              for (var i = page * postsPerPage; i < max; i++) {
                   var post = data.posts[i];
                   var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + post.title + "\" >" + post.title + "</a><p class=\"blog-post-meta\">" +
                       post.date + "</p><p class=\"blog-post-text\">" + post.text + "</p>";
@@ -177,12 +183,21 @@
                   var resultsFound = false;
                   $.each(data.posts, function (key, val) {
                     //search title and text
+                    
+                    //dont replace inside of html tags
+                    var re = /(<[^>]*>)/g;
+                    var result = val.text.split(re);//re.exec(val.text);
+                    for(var i = 0; i < result.length; i++){
+                      if(!result[i].startsWith('<')){
+                        result[i] = replaceAll(result[i], search, search);
+                      }
+                    }
+                    
+                    var newText = result.join('');
                     var newTitle = replaceAll(val.title, search, search);
-                    var newText = replaceAll(val.text, search, search);
                     if(newTitle != val.title || newText != val.text){
                       resultsFound = true;
-                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + newTitle + "</a><p class=\"blog-post-meta\">" +
-                               val.date + "</p><p class=\"blog-post-text\">" + newText + "</p>";
+                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + newTitle + "</a><p class=\"blog-post-meta\">" + val.date + "</p><p class=\"blog-post-text\">" + newText + "</p>";
                         $('.navi').before(newPostHtml);
                     }
                   });
