@@ -138,7 +138,7 @@
               var max = (page * postsPerPage + postsPerPage);
               if(totalPages < max)
                 max = totalPages;
-              for (var i = page * postsPerPage; i < max; i++) {
+              for (var i = page * postsPerPage; i <= max; i++) {
                   var post = data.posts[i];
                   var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + post.title + "\" >" + post.title + "</a><p class=\"blog-post-meta\">" +
                       post.date + "</p><p class=\"blog-post-text\">" + post.text + "</p>";
