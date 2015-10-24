@@ -116,7 +116,7 @@
 
           function LoadPost(title) {
               //alert(title);
-              var posttitle = title.replace( '%20',' ').replace('#','');
+              var posttitle = title.replace( /%20/g,' ').replace('#','');
               $('.blog-post').remove();
               $.each(data.posts, function (key, val) {
                   if (val.title == posttitle) {
