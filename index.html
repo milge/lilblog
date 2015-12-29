@@ -40,6 +40,11 @@
                 <h4>Search</h4>
                 <input type="text" id="txtSearch" class="form-control" onkeyup="javascript: Search();" />
             </div>
+        <div class="sidebar-module">
+                <h4>Categories</h4>
+                <ol class="list-unstyled list-categories">
+                </ol>
+          </div>
           <div class="sidebar-module">
             <h4>Posts</h4>
             <ol class="list-unstyled list-posts">
@@ -72,7 +77,25 @@
                   $.getJSON("data.json", function (jsondata) {
                       data = jsondata;
                       var items = [];
-                      
+
+                      //populate category list
+                      var lookup = {};
+                      var obj = data.posts;
+                      var array=[];
+                      for (var ob, i = 0; ob = obj[i++];) {
+                        var category = ob.category;
+
+                        if (!(category in lookup) && ! (category == null)) {
+                          lookup[category] = 1;
+                            array.push(category);
+                          }
+                        }
+
+                        for (var i = 0; i < array.length; i++) {
+                          var postLink = "<li><a href=\"#\"  onclick=\"LoadCategoryPosts(this.innerHTML);return false;\">" + array[i] + "</a></li>";
+                          $('.list-categories').append(postLink);
+                        };
+
                       //populate posts list
                       $.each(data.posts, function (key, val) {
                           var postLink = "<li><a href=\"#" + val.title + "\" >" + val.title + "</a></li>";
@@ -113,6 +136,21 @@
                   }
               }
           });
+          
+          function LoadCategoryPosts(category) {
+              $('.blog-post').remove();
+              $.each(data.posts, function (key, val) {
+                  if (val.category == category) {
+                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
+                             val.date + " - " + val.category + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+                      $('.navi').before(newPostHtml);
+                  }
+              });
+              $('html,body').scrollTop(0);
+              $('.pager').hide();
+              $('.no-results').hide();
+              
+          }
 
           function LoadPost(title) {
               //alert(title);
@@ -121,7 +159,7 @@
               $.each(data.posts, function (key, val) {
                   if (val.title == posttitle) {
                       var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
-                             val.date + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+                             val.date + " - " + val.category + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
                       $('.navi').before(newPostHtml);
                   }
               });
@@ -141,7 +179,7 @@
               for (var i = page * postsPerPage; i <= max; i++) {
                   var post = data.posts[i];
                   var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + post.title + "\" >" + post.title + "</a><p class=\"blog-post-meta\">" +
-                      post.date + "</p><p class=\"blog-post-text\">" + post.text + "</p>";
+                      post.date + " - " + post.category + "</p><p class=\"blog-post-text\">" + post.text + "</p>";
                   $('.navi').before(newPostHtml);
 
 
@@ -197,7 +235,7 @@
                     var newTitle = replaceAll(val.title, search, search);
                     if(newTitle != val.title || newText != val.text){
                       resultsFound = true;
-                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + newTitle + "</a><p class=\"blog-post-meta\">" + val.date + "</p><p class=\"blog-post-text\">" + newText + "</p>";
+                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + newTitle + "</a><p class=\"blog-post-meta\">" + val.date + " - " + val.category  + "</p><p class=\"blog-post-text\">" + newText + "</p>";
                         $('.navi').before(newPostHtml);
                     }
                   });
