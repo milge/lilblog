@@ -83,13 +83,18 @@
                       var obj = data.posts;
                       var array=[];
                       for (var ob, i = 0; ob = obj[i++];) {
-                        var category = ob.category;
-
-                        if (!(category in lookup) && ! (category == null)) {
-                          lookup[category] = 1;
-                            array.push(category);
+                        if (!(ob.category == undefined)) {
+                          var splited_category = ob.category.split(',');
+                          var index;
+                          for (index = 0; index < splited_category.length; index++) {
+                              var category = splited_category[index];
+                              if (!(category in lookup) && !(category == null)) {
+                                  lookup[category] = 1;
+                                  array.push(category);
+                              }
                           }
                         }
+                      }
 
                         for (var i = 0; i < array.length; i++) {
                           var postLink = "<li><a href=\"#\"  onclick=\"LoadCategoryPosts(this.innerHTML);return false;\">" + array[i] + "</a></li>";
@@ -140,11 +145,20 @@
           function LoadCategoryPosts(category) {
               $('.blog-post').remove();
               $.each(data.posts, function (key, val) {
-                  if (val.category == category) {
-                      var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
-                             val.date + " - " + val.category + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
-                      $('.navi').before(newPostHtml);
+                  if (!(val.category == undefined)) {
+                      var splited_category = val.category.split(',');
+                      var index;
+                      for (index = 0; index < splited_category.length; index++)
+                      {
+                          if (splited_category[index] == category) {
+                              var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
+                              val.date + " - " + val.category + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+                              $('.navi').before(newPostHtml);
+                          }
+                      }
                   }
+                  
+                  
               });
               $('html,body').scrollTop(0);
               $('.pager').hide();
