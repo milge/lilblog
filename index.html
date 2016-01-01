@@ -84,22 +84,24 @@
                       var array=[];
                       for (var ob, i = 0; ob = obj[i++];) {
                         if (!(ob.category == undefined)) {
-                          var splited_category = ob.category.split(',');
                           var index;
-                          for (index = 0; index < splited_category.length; index++) {
-                              var category = splited_category[index];
+                          for (index = 0; index < ob.category.length; index++) {
+                              var category = ob.category[index];
                               if (!(category in lookup) && !(category == null)) {
                                   lookup[category] = 1;
                                   array.push(category);
                               }
                           }
                         }
+                        else {
+                          array.push("No Category");
+                        }
                       }
-
-                        for (var i = 0; i < array.length; i++) {
-                          var postLink = "<li><a href=\"#\"  onclick=\"LoadCategoryPosts(this.innerHTML);return false;\">" + array[i] + "</a></li>";
-                          $('.list-categories').append(postLink);
-                        };
+                      
+                      for (var i = 0; i < array.length; i++) {
+                        var postLink = "<li><a href=\"#\"  onclick=\"LoadCategoryPosts(this.innerHTML);return false;\">" + array[i] + "</a></li>";
+                        $('.list-categories').append(postLink);
+                      };
 
                       //populate posts list
                       $.each(data.posts, function (key, val) {
@@ -145,20 +147,24 @@
           function LoadCategoryPosts(category) {
               $('.blog-post').remove();
               $.each(data.posts, function (key, val) {
-                  if (!(val.category == undefined)) {
-                      var splited_category = val.category.split(',');
+                  if ((!(val.category == undefined))) {
                       var index;
-                      for (index = 0; index < splited_category.length; index++)
+                      for (index = 0; index < val.category.length; index++)
                       {
-                          if (splited_category[index] == category) {
+                          if (val.category[index] == category) {
                               var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
                               val.date + " - " + val.category + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
                               $('.navi').before(newPostHtml);
                           }
                       }
                   }
-                  
-                  
+                  else {
+                      if (category == "No Category") {
+                          var newPostHtml = "<div class=\"blog-post\"><a class=\"blog-post-title\" href=\"#" + val.title + "\" >" + val.title + "</a><p class=\"blog-post-meta\">" +
+                          val.date + " - " + "No Category" + "</p><p class=\"blog-post-text\">" + val.text + "</p>";
+                          $('.navi').before(newPostHtml);
+                       }
+                  }
               });
               $('html,body').scrollTop(0);
               $('.pager').hide();
